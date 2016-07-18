@@ -327,12 +327,17 @@ function sftp(config, remPath, lclFile) {
 	sftp = new client();
 	sftp.connect(config)
 	.catch((err) => {
-		console.log(sftp);
-		console.log("ERR:" + err);
+		console.log("ERR CONN:" + err);
+		err_handler(res, 501, ":Error on connecting to remote server:", err);
 	});
 	
+	sftp.put(lclFile, remPath)
+	.catch((err) => {
+		console.log("ERR PUT:" + err);
+		err_handler(res, 501, ":Error on moving file to remote server:", err);
+	})
 	
-	
+		
 }
 //error handler-------------------------------------------------------------------------------
 function err_handler(res, err_code, err_message, err_detail){
