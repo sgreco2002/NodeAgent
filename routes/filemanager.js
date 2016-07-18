@@ -152,19 +152,9 @@ myExport.fsMan = function (req, res) {
 				remUsrName=value[1],
 				remPasswd=[2],
 				remPath=[3];*/
-				sftpParam="jboss@ip:/home/jboss <<< \$'put main.js'";
+				
+				sftpParam="jboss@10.135.235.13:/home/jboss <<< \$'put main.js'";
 				console.log(sftpParam);
-				
-				supp("sftp" [sftpParam])
-				supp.when('/\*password\*/').respond('passwd')
-				supp.on('error', function(err){
-					console.log(err.message);
-				})
-				.end(function (code){
-					console.log(code);
-				});
-				
-				console.log(supp);
 				
 			break;
 //--------------------------------------------------------------------------------	
@@ -323,6 +313,20 @@ myExport.upload = function(req,res) {
 	});
 }
 
+function sftp {
+	
+	supp("sftp" [sftpParam])
+	supp.when('/\*password\*/').respond('TsP7jdCmuKHuhKkR')
+	supp.on('error', function(err){
+		console.log(err.message);
+	})
+	.end(function (code){
+		console.log(code);
+	});
+	
+	console.log(supp);
+	
+}
 //error handler-------------------------------------------------------------------------------
 function err_handler(res, err_code, err_message, err_detail){
 	res.statusCode = err_code;
