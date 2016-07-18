@@ -147,15 +147,15 @@ myExport.fsMan = function (req, res) {
 			case "sftpFile":
 				//sftp jboss@10.135.235.13:/home/jboss/ <<< $'put main.js
 				
-				/*
-				remHost=value[0],
-				remUsrName=value[1],
-				remPasswd=[2],
-				remPath=[3];*/
+				var remHost=values[0],
+				remUsrName=values[1],
+				remPasswd=values[2],
+				remPath=values[3];
+				lclFile=values[4];
 				
-				sftpParam="jboss@10.135.235.13:/home/jboss <<< \$'put main.js'";
+				sftpParam=remUsrName + "@" + remHost + "\:" + remPath + " <<< \$'put " + lclFile + "'";
 				console.log(sftpParam);
-				sftp(sftpParam);
+				sftp(sftpParam, remPasswd);
 				
 			break;
 //--------------------------------------------------------------------------------	
@@ -314,10 +314,10 @@ myExport.upload = function(req,res) {
 	});
 }
 //sftp file ---------------------------------------------------------------------------------
-function sftp(sftpParam) {
+function sftp(sftpParam, passwd) {
 	
 	supp("sftp", [sftpParam], {debug: fs.createWriteStream('/tmp/debug.txt')})
-	.when('/jboss@10.135.235.13\'s password\: /').respond('TsP7jdCmuKHuhKkR\n')
+	.when('/\*password\: /', passwd + '\n')
 	.on('error', function(err){
 		console.log(err.message);
 	})
