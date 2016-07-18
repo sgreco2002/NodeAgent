@@ -325,11 +325,12 @@ myExport.upload = function(req,res) {
 function sftp(config, remPath, lclFile) {
 
 	sftp = new client();
+	
 	sftp.connect(config)
 	.catch((err) => {
+		console.log(sftp);
 		console.log("ERR:" + err);
 	});
-	
 	
 }
 //error handler-------------------------------------------------------------------------------
