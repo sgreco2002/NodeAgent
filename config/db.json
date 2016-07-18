@@ -1,0 +1,12 @@
+{
+	"databasetag":"derbydb",
+	"host":"10.135.235.16",
+	"port":"1527",
+	"username":"cat",
+	"password":"cat",
+	"dbpath":"/home/nagios/db-derby-10.12.1.1-bin/Databases/CAT",
+	"minpool":"5",
+	"maxpool":"10"
+	
+}
+	
