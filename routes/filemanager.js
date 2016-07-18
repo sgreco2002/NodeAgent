@@ -315,17 +315,41 @@ myExport.upload = function(req,res) {
 }
 //sftp file ---------------------------------------------------------------------------------
 function sftp(sftpParam, passwd) {
-	
+	/*
 	supp("sftp", [sftpParam], {debug: fs.createWriteStream('/tmp/debug.txt')})
-	.when('/\*password\: /', passwd + '\n')
+	.when('password:').respond(passwd + '\n')
 	.on('error', function(err){
 		console.log(err.message);
 	})
 	.end(function (code){
 		console.log(code);
-	});
-	
-	console.log(supp);
+	});*/
+
+	process.chdir('/tmp/awesome');
+	fs.writeFileSync('/tmp/awesome/README.md', 'READ IT')
+	// debug is an optional writeable output stream
+	supp('npm', ['init'], {debug: fs.createWriteStream('/tmp/debug.txt')})
+	  .when(/name\: \([\w|\-]+\)[\s]*/).respond('awesome_package\n')
+	  .when('version: (1.0.0) ').respond('0.0.1\n')
+	  // response can also be the second argument to .when
+	  .when('description: ', "It's an awesome package man!\n")
+	  .when('entry point: (index.js) ').respond("\n")
+	  .when('test command: ').respond('npm test\n')
+	  .when('git repository: ').respond("\n")
+	  .when('keywords: ').respond('awesome, cool\n')
+	  .when('author: ').respond('JP Richardson\n')
+	  .when('license: (ISC) ').respond('MIT\n')
+	  .when('ok? (yes) ' ).respond('yes\n')
+	.on('error', function(err){
+	  console.log(err.message);
+	})
+	.end(function(code){
+	  var packageFile = '/tmp/awesome/package.json';
+	  fs.readFile(packageFile, function(err, data){
+	    var packageObj = JSON.parse(data.toString());
+	    console.log(packageObj.name); //'awesome_package'
+	  })
+	})
 	
 }
 //error handler-------------------------------------------------------------------------------
