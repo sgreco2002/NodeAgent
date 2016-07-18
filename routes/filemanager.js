@@ -326,7 +326,7 @@ function sftpCall(config, remPath, lclFile) {
 	var conn = new client();
 	conn.on('ready', function() {
 		console.log('client ready!');
-		conn.sftp(function(err, sftp){
+		conn.sftp(function(err, sftp) {
 			if (err) throw err;
 			sftp.fastPut('/home/node/catagent/main.js','/home/jboss', 
 				{
@@ -344,7 +344,8 @@ function sftpCall(config, remPath, lclFile) {
 						console.log("upload done");
 					} 
 				});
-		}).on('error', function(err){console.log("ERR SFTP "+err);});
+		})
+//	}).on('error', function(err){console.log("ERR SFTP "+err);});
 	}).connect(config);
 }
 
