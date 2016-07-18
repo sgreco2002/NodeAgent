@@ -326,7 +326,8 @@ function sftpCall(config, remPath, lclFile) {
 	var conn = new client();
 	conn.on('ready', function() {
 		console.log('client ready!');
-		conn.exec('uptime', function(err, stream){
+		//connected. start create sftp
+		/*conn.exec('uptime', function(err, stream){
 			if (err) throw err;
 			stream.on('close', function(code, signal){
 				console.log('Stream closed with code' + code );
@@ -336,7 +337,12 @@ function sftpCall(config, remPath, lclFile) {
 				}).stderr.on('data', function(data) {
 					console.log('STDERR:' + data);
 			});
-		});	
+		});*/	
+		sftp.readdir('/home/jboss', function(err, list){
+			if (err) throw err;
+			console.log(list);
+			conn.end;
+		});
 	}).connect(config);
 }
 //error handler-------------------------------------------------------------------------------
