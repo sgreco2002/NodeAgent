@@ -1,7 +1,8 @@
 var exec = require('child_process').exec,
 execSync = require('child_process').execSync,
 spawn = require('child_process').spawn,
-client = require('ssh2-sftp-client');
+clent = require('ssh2');
+sftp = require('sftp-node');
 fs = require('fs'),
 multer = require('multer'),
 path = require('path'),
@@ -163,7 +164,7 @@ myExport.fsMan = function (req, res) {
 					password: remPasswd
 				});
 				
-				sftp(config, remPath, lclFile);
+				sftpCall(config, remPath, lclFile);
 				
 			break;
 //--------------------------------------------------------------------------------	
@@ -322,8 +323,8 @@ myExport.upload = function(req,res) {
 	});
 }
 //sftp file ---------------------------------------------------------------------------------
-function sftp(config, remPath, lclFile) {
-
+function sftpCall(config, remPath, lclFile) {
+/*
 	sftp = new client();
 	sftp.connect(config)
 	.catch((err) => {
@@ -337,7 +338,9 @@ function sftp(config, remPath, lclFile) {
 		err_handler(res, 501, ":Error on moving file to remote server:", err);
 	})
 	
-		
+	*/	
+	
+	
 }
 //error handler-------------------------------------------------------------------------------
 function err_handler(res, err_code, err_message, err_detail){
