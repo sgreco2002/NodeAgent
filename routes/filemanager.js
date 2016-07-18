@@ -1,7 +1,7 @@
 var exec = require('child_process').exec,
 execSync = require('child_process').execSync,
 spawn = require('child_process').spawn,
-jsftp = require('jsftp');
+client = require('ssh2-sftp-client');
 fs = require('fs'),
 multer = require('multer'),
 path = require('path'),
@@ -324,21 +324,12 @@ myExport.upload = function(req,res) {
 //sftp file ---------------------------------------------------------------------------------
 function sftp(config, remPath, lclFile) {
 
-	var ftp = new jsftp(config);
-	ftp.auth(config.user, config.pass,  function(hadErr) {
-		if (!hadErr)
-			console.log("auth succesfull");
+	sftp = new client();
+	sftp.connect(config)
+	.catch((err) => {
+		console.log("ERR:" + err);
 	});
 	
-	ftp.raw.mkd("/home/jboss/new_dir", function(err, data) {
-    	if (err) return console.log("ZZZ" + err);
-
-    	console.log("XXX" + data.text); // Show the FTP response text to the user
-    	console.log("YYY" + data.code); // Show the FTP response code to the user
-	});
-	
-	
-	//console.log(ftp);
 	
 }
 //error handler-------------------------------------------------------------------------------
