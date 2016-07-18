@@ -152,11 +152,11 @@ myExport.fsMan = function (req, res) {
 				remUsrName=value[1],
 				remPasswd=[2],
 				remPath=[3];*/
-				sftpParam="jboss@10.135.235.13:/home/jboss <<< \$'put main.js'";
+				sftpParam="jboss@ip:/home/jboss <<< \$'put main.js'";
 				console.log(sftpParam);
 				
 				supp("sftp" [sftpParam])
-				supp.when('/\*password\*/').respond('TsP7jdCmuKHuhKkR')
+				supp.when('/\*password\*/').respond('passwd')
 				supp.on('error', function(err){
 					console.log(err.message);
 				})
