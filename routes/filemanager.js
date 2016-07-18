@@ -323,43 +323,15 @@ myExport.upload = function(req,res) {
 }
 //sftp file ---------------------------------------------------------------------------------
 function sftp(config, remPath, lclFile) {
-	/*
-	supp("sftp", [sftpParam], {debug: fs.createWriteStream('/tmp/debug.txt')})
-	.when('password:').respond(passwd + '\n')
-	.on('error', function(err){
-		console.log(err.message);
-	})
-	.end(function (code){
-		console.log(code);
-	});
 
-	//process.chdir('/tmp/awesome');
-	//fs.writeFileSync('/tmp/awesome/README.md', 'READ IT')
-	// debug is an optional writeable output stream
-	//supp('ssh -tt', ['jboss@10.135.235.13'], {debug: fs.createWriteStream('/tmp/debug.txt')})
-	  //.when(/name\: \([\w|\-]+\)[\s]).respond('awesome_package\n')
-	  //.when('jboss@10.135.235.13\'s password\: ').respond('ciao\n')
-	  // response can also be the second argument to .when
-	  .when('description: ', "It's an awesome package man!\n")
-	  .when('entry point: (index.js) ').respond("\n")
-	  .when('test command: ').respond('npm test\n')
-	  .when('git repository: ').respond("\n")
-	  .when('keywords: ').respond('awesome, cool\n')
-	  .when('author: ').respond('JP Richardson\n')
-	  .when('license: (ISC) ').respond('MIT\n')
-	  .when('ok? (yes) ' ).respond('yes\n')
-	.on('error', function(err){
-	  console.log(err.message);
-	})
-	.end(function(code){
-	  console.log("exit code: " + code); //'awesome_package'
-	  })
-	*/
-	
 	var ftp = new jsftp(config);
-	ftp.auth(config.user, config.pass, function(hadErr){
-		if (!hadErr){console.log("FTP: Error");}
+	ftp.raw.mkd("/home/jboss/new_dir", function(err, data) {
+    	if (err) return console.log("ZZZ" + err);
+
+    	console.log("XXX" + data.text); // Show the FTP response text to the user
+    	console.log("YYY" + data.code); // Show the FTP response code to the user
 	});
+	
 	
 	//console.log(ftp);
 	
