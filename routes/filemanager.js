@@ -323,34 +323,31 @@ myExport.upload = function(req,res) {
 //sftp file ---------------------------------------------------------------------------------
 function sftpCall(config, remPath, lclFile) {
 
-	
-	//connected. start create sftp
-	
-	/*conn.exec('uptime', function(err, stream){
-		if (err) throw err;
-		stream.on('close', function(code, signal){
-			console.log('Stream closed with code' + code );
-			conn.end;
-			}).on('data', function(data){
-				console.log('STDOUT:' + data);
-			}).stderr.on('data', function(data) {
-				console.log('STDERR:' + data);
-		});
-	});*/
-	
 	var conn = new client();
 	conn.on('ready', function() {
 		console.log('client ready!');
 		conn.sftp(function(err, sftp){
 			if (err) throw err;
-			sftp.readdir('/home/jboss', function(err, list) {
-				if (err) throw err;
-				console.log(list);
-				conn.end();
-			});
-		});
+			sftp.fastPut('/home/node/catagent/main.js','/home/jboss', 
+				{
+					 localFile: '/home/node/catagent/main.js',
+					 step: function( total_transferred, chunk, total, option )
+					 {
+						 console.log( '\nUploading file ( ' + option.localFile + ' )... ' + total_transferred/total);
+					 }
+				}, function (err, option) {
+					if (err) {
+						console.log("ERR SFTP Uploading file " +err);
+						conn.end();
+					}
+					else {
+						console.log("upload done");
+					} 
+				});
+		}).on('error', function(err){console.log("ERR SFTP "+err);});
 	}).connect(config);
 }
+
 //error handler-------------------------------------------------------------------------------
 function err_handler(res, err_code, err_message, err_detail){
 	res.statusCode = err_code;
