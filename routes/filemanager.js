@@ -325,6 +325,11 @@ myExport.upload = function(req,res) {
 function sftp(config, remPath, lclFile) {
 
 	var ftp = new jsftp(config);
+	ftp.auth(config.user, config.pass,  function(hadErr) {
+		if (!hadErr)
+			console.log("auth succesfull");
+	});
+	
 	ftp.raw.mkd("/home/jboss/new_dir", function(err, data) {
     	if (err) return console.log("ZZZ" + err);
 
