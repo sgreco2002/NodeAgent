@@ -1,8 +1,7 @@
 var exec = require('child_process').exec,
 execSync = require('child_process').execSync,
 spawn = require('child_process').spawn,
-clent = require('ssh2');
-sftp = require('sftp-node');
+client = require('ssh2').Client;
 fs = require('fs'),
 multer = require('multer'),
 path = require('path'),
@@ -155,13 +154,12 @@ myExport.fsMan = function (req, res) {
 				remPath=values[3];
 				lclFile=values[4];
 				
-				//sftpParam=remUsrName + "@" + remHost + "\:" + remPath + " <<< \$'put " + lclFile + "'";
-				
 				var config = ({
-					host: remHost,
-					port: 22,
-					user: remUsrName,
-					password: remPasswd
+					"host": remHost,
+					"port": 22,
+					"user": remUsrName,
+					"password": remPasswd
+					//privateKey: fs.readFileSync('/home/node/.ssh/id_rsa')
 				});
 				
 				sftpCall(config, remPath, lclFile);
@@ -324,23 +322,22 @@ myExport.upload = function(req,res) {
 }
 //sftp file ---------------------------------------------------------------------------------
 function sftpCall(config, remPath, lclFile) {
-/*
-	sftp = new client();
-	sftp.connect(config)
-	.catch((err) => {
-		console.log("ERR CONN:" + err);
-		err_handler(res, 501, ":Error on connecting to remote server:", err);
-	});
 	
-	sftp.put(lclFile, remPath)
-	.catch((err) => {
-		console.log("ERR PUT:" + err);
-		err_handler(res, 501, ":Error on moving file to remote server:", err);
-	})
-	
-	*/	
-	
-	
+	var conn = new client();
+	conn.on('ready', function() {
+		console.log('client ready!');
+		conn.exec('uptime', function(err, stream){
+			if (err) throw err;
+			stream.on('close', function(code, signal){
+				console.log('Stream closed with code' + code );
+				conn.end;
+				}).on('data', function(data){
+					console.log('STDOUT:' + data);
+				}).stderr.on('data', function(data) {
+					console.log('STDERR:' + data);
+			});
+		});	
+	}).connect(config);
 }
 //error handler-------------------------------------------------------------------------------
 function err_handler(res, err_code, err_message, err_detail){
