@@ -153,16 +153,26 @@ myExport.fsMan = function (req, res) {
 				remPasswd=values[2],
 				remPath=values[3];
 				lclFile=values[4];
-				
+				/*
 				var config = ({
 					"host": remHost,
 					"port": 22,
 					"user": remUsrName,
 					"password": remPasswd
 					//privateKey: fs.readFileSync('/home/node/.ssh/id_rsa')
+				});*/
+				//lftp -e "put -O /home/jboss/ /product/gcc-4.9.2.tar.bz2; bye" -u jboss,TsP7jdCmuKHuhKkR 10.135.235.13
+				
+				commandSeq = ({
+					"cmds":	[
+					       	 {
+					       		"command" : 'lftp -e "put -O' + remPath + " " + lclFile + ' ; bye " -u ' + remUsrName + ',' + remPasswd + ' ' +  remHost,
+						        "reOutput" : "Y"
+						     }
+					]
 				});
 				
-				sftpCall(config, remPath, lclFile, res);
+				//sftpall(config, remPath, lclFile, res);
 				
 			break;
 //--------------------------------------------------------------------------------	
