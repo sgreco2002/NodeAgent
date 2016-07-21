@@ -1,0 +1,69 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/home/node/node-v4.4.7-linux-x64/bin/node',
+1 verbose cli   '/home/node/node-v4.4.7-linux-x64/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'ftps' ]
+2 info using npm@2.15.8
+3 info using node@v4.4.7
+4 verbose install initial load of /home/node/catagent/package.json
+5 verbose installManyTop reading scoped package data from /home/node/catagent/node_modules/connect-timeout/package.json
+6 verbose installManyTop reading scoped package data from /home/node/catagent/node_modules/express/package.json
+7 verbose installManyTop reading scoped package data from /home/node/catagent/node_modules/jdbc/package.json
+8 verbose installManyTop reading scoped package data from /home/node/catagent/node_modules/multer/package.json
+9 verbose installManyTop reading scoped package data from /home/node/catagent/node_modules/node-gyp/package.json
+10 verbose installManyTop reading scoped package data from /home/node/catagent/node_modules/ssh2/package.json
+11 verbose installManyTop reading scoped package data from /home/node/catagent/node_modules/ssh2-sftp-client/package.json
+12 verbose installManyTop reading scoped package data from /home/node/catagent/node_modules/suppose/package.json
+13 info package.json ssh2@0.5.0 No license field.
+14 verbose readDependencies loading dependencies from /home/node/catagent/package.json
+15 silly cache add args [ 'ftps', null ]
+16 verbose cache add spec ftps
+17 silly cache add parsed spec Result {
+17 silly cache add   raw: 'ftps',
+17 silly cache add   scope: null,
+17 silly cache add   name: 'ftps',
+17 silly cache add   rawSpec: '',
+17 silly cache add   spec: 'latest',
+17 silly cache add   type: 'tag' }
+18 silly addNamed ftps@latest
+19 verbose addNamed "latest" is being treated as a dist-tag for ftps
+20 info addNameTag [ 'ftps', 'latest' ]
+21 silly mapToRegistry name ftps
+22 silly mapToRegistry using default registry
+23 silly mapToRegistry registry https://registry.npmjs.org/
+24 silly mapToRegistry data Result {
+24 silly mapToRegistry   raw: 'ftps',
+24 silly mapToRegistry   scope: null,
+24 silly mapToRegistry   name: 'ftps',
+24 silly mapToRegistry   rawSpec: '',
+24 silly mapToRegistry   spec: 'latest',
+24 silly mapToRegistry   type: 'tag' }
+25 silly mapToRegistry uri https://registry.npmjs.org/ftps
+26 verbose addNameTag registry:https://registry.npmjs.org/ftps not in flight; fetching
+27 verbose request uri https://registry.npmjs.org/ftps
+28 verbose request no auth needed
+29 info attempt registry request try #1 at 10:35:46 AM
+30 verbose request id 47262a8e08833dfa
+31 http request GET https://registry.npmjs.org/ftps
+32 info retry will retry, error on last attempt: Error: getaddrinfo EAI_AGAIN registry.npmjs.org:443
+33 info attempt registry request try #2 at 10:36:16 AM
+34 http request GET https://registry.npmjs.org/ftps
+35 info retry will retry, error on last attempt: Error: getaddrinfo EAI_AGAIN registry.npmjs.org:443
+36 info attempt registry request try #3 at 10:37:36 AM
+37 http request GET https://registry.npmjs.org/ftps
+38 verbose stack Error: getaddrinfo EAI_AGAIN registry.npmjs.org:443
+38 verbose stack     at Object.exports._errnoException (util.js:873:11)
+38 verbose stack     at errnoException (dns.js:32:15)
+38 verbose stack     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:78:26)
+39 verbose cwd /home/node/catagent
+40 error Linux 2.6.32-431.el6.x86_64
+41 error argv "/home/node/node-v4.4.7-linux-x64/bin/node" "/home/node/node-v4.4.7-linux-x64/bin/npm" "install" "ftps"
+42 error node v4.4.7
+43 error npm  v2.15.8
+44 error code EAI_AGAIN
+45 error errno EAI_AGAIN
+46 error syscall getaddrinfo
+47 error getaddrinfo EAI_AGAIN registry.npmjs.org:443
+48 error If you need help, you may report this error at:
+48 error     <https://github.com/npm/npm/issues>
+49 verbose exit [ 1, true ]
