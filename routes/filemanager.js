@@ -328,8 +328,14 @@ function sftpCall(config, remPath, lclFile, res) {
 		console.log('client ready!');
 		conn.sftp(function(err, sftp) {
 			if (err) {console.log("ERR SFTP Connection " +err);}
-			sftp.fastPut('/home/node/catagent/main.js','/home/jboss/', 
-				{
+			//sftp.fastPut('/home/node/catagent/main.js','/home/jboss/',
+			sftp.fastput('/home/node/catagent/main.js','/home/jboss/' ,function(err,result){
+				if (err) {console.log(err);}
+				else {
+					console.log(result);
+				}
+			});
+				/*{
 					 //localFile: '/home/node/catagent/main.js',
 					 step: function(totalTransferred, chunk, total)
 					 {
@@ -343,13 +349,12 @@ function sftpCall(config, remPath, lclFile, res) {
 					else {
 						console.log("upload done");
 					} 
-				});
-		})
+				});*/
+		});
 	}).connect(config);
 	conn.on('error', function(err) {
 		if (conn) {conn.end();}
 		err_handler(res, 501, ":SFTP Generic ERR:", err);
-		
 	});
 }
 
