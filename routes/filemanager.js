@@ -146,22 +146,12 @@ myExport.fsMan = function (req, res) {
 			break;
 //--------------------------------------------------------------------------------		
 			case "sftpFile":
-				//sftp jboss@10.135.235.13:/home/jboss/ <<< $'put main.js
 				
 				var remHost=values[0],
 				remUsrName=values[1],
 				remPasswd=values[2],
 				remPath=values[3];
 				lclFile=values[4];
-				/*
-				var config = ({
-					"host": remHost,
-					"port": 22,
-					"user": remUsrName,
-					"password": remPasswd
-					//privateKey: fs.readFileSync('/home/node/.ssh/id_rsa')
-				});*/
-				//lftp -e "put -O /home/jboss/ /product/gcc-4.9.2.tar.bz2; bye" -u jboss,TsP7jdCmuKHuhKkR 10.135.235.13
 				
 				commandSeq = ({
 					"cmds":	[
@@ -171,8 +161,6 @@ myExport.fsMan = function (req, res) {
 						     }
 					]
 				});
-				
-				//sftpall(config, remPath, lclFile, res);
 				
 			break;
 //--------------------------------------------------------------------------------	
@@ -243,7 +231,7 @@ myExport.fsMan = function (req, res) {
 							
 //prepare streaming data------------------------------------------------------------------------------------------------
 				childs[downloadCounter].stdout.on('data', function(buf) {
-					console.log(String(buf));
+					//console.log(String(buf));
 					if (/error|failed|missing|cannot|404/i.test(String(buf))) {
 						childs[downloadCounter].stdout = String(buf);
 						err_handler(res, 501, ":Error on execute command:", String(buf));
@@ -256,7 +244,7 @@ myExport.fsMan = function (req, res) {
 					}
 				});
 				childs[downloadCounter].stderr.on('data', function(buf) {
-					console.log(String(buf));
+					//console.log(String(buf));
 					if (/error|failed|missing|cannot|404/i.test(String(buf))) {
 						childs[downloadCounter].stdout=String(buf);
 						err_handler(res, 501, ":Error on execute command:", String(buf));
@@ -267,7 +255,7 @@ myExport.fsMan = function (req, res) {
 							childs[downloadCounter].stdout=String(buf).substring(n,4);
 						}
 					}
-					console.log(childs[downloadCounter].pid + " > " + childs[downloadCounter].stdout);
+					//console.log(childs[downloadCounter].pid + " > " + childs[downloadCounter].stdout);
 					stdOut = childs[downloadCounter].stdout;
 				});
 				childs[downloadCounter].on('close', function (code) {
@@ -320,7 +308,7 @@ myExport.readstream = function(req, res) {
 //upload file ---------------------------------------------------------------------------------
 myExport.upload = function(req,res) {
 	var upload = multer({storage: storage}).single('lcl_upload');
-	console.log(req.body);
+	//console.log(req.body);
 	upload(req, res, function(err){
 		if (err) {
 			err_handler(res, 501, ":Error on upload file:", err);
@@ -328,43 +316,6 @@ myExport.upload = function(req,res) {
 		else {
 			res.end("OK");
 		}
-	});
-}
-//sftp file ---------------------------------------------------------------------------------
-function sftpCall(config, remPath, lclFile, res) {
-
-	var conn = new client();
-	conn.on('ready', function() {
-		console.log('client ready!');
-		conn.sftp(function(err, sftp) {
-			if (err) {console.log("ERR SFTP Connection " +err);}
-			//sftp.fastPut('/home/node/catagent/main.js','/home/jboss/',
-			sftp.fastput('/home/node/catagent/main.js','/home/jboss/' ,function(err,result){
-				if (err) {console.log(err);}
-				else {
-					console.log(result);
-				}
-			});
-				/*{
-					 //localFile: '/home/node/catagent/main.js',
-					 step: function(totalTransferred, chunk, total)
-					 {
-						 console.log( '\nUploading file ( ' + option.localFile + ' )... ' + total_transferred/total);
-					 }
-				}, function (err) {
-					if (err) {
-						console.log("ERR SFTP Uploading file " +err);
-						conn.end();
-					}
-					else {
-						console.log("upload done");
-					} 
-				});*/
-		});
-	}).connect(config);
-	conn.on('error', function(err) {
-		if (conn) {conn.end();}
-		err_handler(res, 501, ":SFTP Generic ERR:", err);
 	});
 }
 
