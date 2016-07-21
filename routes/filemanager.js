@@ -162,7 +162,7 @@ myExport.fsMan = function (req, res) {
 					//privateKey: fs.readFileSync('/home/node/.ssh/id_rsa')
 				});
 				
-				sftpCall(config, remPath, lclFile);
+				sftpCall(config, remPath, lclFile, res);
 				
 			break;
 //--------------------------------------------------------------------------------	
@@ -321,21 +321,21 @@ myExport.upload = function(req,res) {
 	});
 }
 //sftp file ---------------------------------------------------------------------------------
-function sftpCall(config, remPath, lclFile) {
+function sftpCall(config, remPath, lclFile, res) {
 
 	var conn = new client();
 	conn.on('ready', function() {
 		console.log('client ready!');
 		conn.sftp(function(err, sftp) {
-			if (err) throw err;
-			sftp.fastPut('/home/node/catagent/main.js','/home/jboss', 
+			if (err) {console.log("ERR SFTP Connection " +err);}
+			sftp.fastPut('/home/node/catagent/main.js','/home/jboss/', 
 				{
-					 localFile: '/home/node/catagent/main.js',
-					 step: function( total_transferred, chunk, total, option )
+					 //localFile: '/home/node/catagent/main.js',
+					 step: function(totalTransferred, chunk, total)
 					 {
 						 console.log( '\nUploading file ( ' + option.localFile + ' )... ' + total_transferred/total);
 					 }
-				}, function (err, option) {
+				}, function (err) {
 					if (err) {
 						console.log("ERR SFTP Uploading file " +err);
 						conn.end();
@@ -345,8 +345,12 @@ function sftpCall(config, remPath, lclFile) {
 					} 
 				});
 		})
-//	}).on('error', function(err){console.log("ERR SFTP "+err);});
 	}).connect(config);
+	conn.on('error', function(err) {
+		if (conn) {conn.end();}
+		err_handler(res, 501, ":SFTP Generic ERR:", err);
+		
+	});
 }
 
 //error handler-------------------------------------------------------------------------------
